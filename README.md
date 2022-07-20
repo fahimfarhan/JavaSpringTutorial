@@ -63,3 +63,19 @@ class Math {
   }
 }
 ```
+
+3. We want to follow clean architecture. 
+    user <---------> controller <-------> Services <-------> Repository <----------> DB
+    Our controller class will look like this:
+```java
+    @RestController   // <----------------- Annotates that this is a controller class. The user will first time reach here!
+    public class GreetController {
+
+    @GetMapping("/greet")    // <------------- connects an API endpoints to a method
+    String greet() {
+    return  "Hello there!";
+    }
+}
+```
+
+1 hour 3 min to be continued... ... ...
