@@ -1,10 +1,10 @@
-package indiedev.soumic.applications;
+package indiedev.soumic.start;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationsApplicationTests {
+class StartApplicationTests {
 
 	@Test
 	void contextLoads() {

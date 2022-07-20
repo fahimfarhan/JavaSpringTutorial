@@ -1,13 +1,13 @@
-package indiedev.soumic.applications;
+package indiedev.soumic.start;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApplicationsApplication {
+public class StartApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApplicationsApplication.class, args);
+		SpringApplication.run(StartApplication.class, args);
 	}
 
 }
