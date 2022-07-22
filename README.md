@@ -126,4 +126,28 @@ class Email {
       }
 ```
 7. `@PostMapping`
-8. Custom exception handling: use `@ResponseStatus(HttpStatus.NOT_FOUND)` 
+8. Custom exception handling: use `@ResponseStatus(HttpStatus.NOT_FOUND)`
+
+## [Class 5](https://github.com/fahimfarhan/JavaSpringTutorial/tree/class-5)
+Previously in class 4, we saw RestController, Service, and Repository.
+```mermaid
+flowChart class 4
+    A[user] --> B[emailController];
+    B --> C[EmailService];
+    C --> D[EmailService];
+    D --> E[list of emails];
+```
+
+Today, we'll add a persistence layer (database).
+
+
+```mermaid
+flowChart class 4
+    A[user] --> B[emailController];
+    B --> C[EmailService];
+    C --> D[EmailService];
+    D -- email --> E[DataBase];
+```
+We'll use Spring JPA dependency. All we need to o is give JPA a model, in this case `Email`.
+For simplicity, we'll use an inMemory database called `H2 database`. In the next class,
+we'll see microservices, and there we'll use postgresql.
