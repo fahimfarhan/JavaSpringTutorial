@@ -67,15 +67,63 @@ class Math {
 3. We want to follow clean architecture. 
     user <---------> controller <-------> Services <-------> Repository <----------> DB
     Our controller class will look like this:
-```java
-    @RestController   // <----------------- Annotates that this is a controller class. The user will first time reach here!
-    public class GreetController {
 
-    @GetMapping("/greet")    // <------------- connects an API endpoints to a method
-    String greet() {
-    return  "Hello there!";
-    }
+```java
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@RestController   // <----------------- Annotates that this is a controller class. The user will first time reach here!
+public class GreetController {
+
+  @GetMapping("/greet")
+    // <------------- connects an API endpoints to a method
+  String greet() {
+    return "Hello there!";
+  }
+
+
+  @RequestMapping(value = "/greet-v2", method = RequestMethod.GET)
+    // <------------- connects an API endpoints to a method
+  String greet() {
+    return "Hello there!";
+  }
 }
 ```
 
-1 hour 3 min to be continued... ... ...
+4. Create a model class `Email.java`:
+
+```java
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+class Email {
+  private String title;
+  private String description;
+  private String someThingSecret;
+
+  // constructor, getter, setter etc
+
+  // if we want to ignore a field from returning to the client, use @JsonIgnore on the getter
+  @JsonIgnore
+  public String getSomeThingSecret() {
+    return someThingSecret;
+  }
+}
+```
+5. Create an EmailService, and EmailController. Annotate them with `@Service`, and `@RestController` respectively.
+6. Inside the EmailController, create an EmailService using `@AutoWired` annotation. The @Service creates an EmailService bean, that is 
+   stored inside IOC (Inversion of Container). The `@AutoWired` annotation automatically links the variable with the reference of EmailService object stored in IOC.
+```java
+      class EmailController {
+        //  @Autowired // warning dey ken? Vo.O
+        //  private EmailService emailService;
+      
+        private EmailService emailService;
+    
+        @Autowired  // AutoWired using setter. Alternatively, use constructor as autocorrected by intellijIdea.
+        public void setEmailService(EmailService emailService) {
+          this.emailService = emailService;
+        }
+      }
+```
+7. `@PostMapping`
+8. Custom exception handling: use `@ResponseStatus(HttpStatus.NOT_FOUND)` 
