@@ -13,8 +13,22 @@ repositories {
 }
 
 dependencies {
+	// Initial dependencies
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// h2 inMemory database
+	// https://mvnrepository.com/artifact/com.h2database/h2
+	implementation("com.h2database:h2:2.1.214")
+
+	// jpa
+	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
+	implementation("org.springframework.data:spring-data-jpa:2.7.2")
+
+
+	// I was having an error. a quick google suggested to add this hibernate-core dependency
+	// https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
+	implementation("org.hibernate.orm:hibernate-core:6.1.1.Final")
 }
 
 tasks.named('test') {

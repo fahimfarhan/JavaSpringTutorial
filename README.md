@@ -151,3 +151,58 @@ flowchart TD;
 We'll use Spring JPA dependency. All we need to o is give JPA a model, in this case `Email`.
 For simplicity, we'll use an inMemory database called `H2 database`. In the next class,
 we'll see microservices, and there we'll use postgresql.
+
+1. Add h2-db, jpa, and hibernate-core dependencies.
+2. Create an interface called `EmailRepository`, and annotate with `@Repository`.
+3. The emailRepo should extend `JpaRepository`.
+4. ORM = Object relation mapping
+5. Annotate the Email class with `@Entity`
+6. Create a field `id` for primary key. The primary key must be annotated with `@Id`, and `@GeneratedValue`.
+7. Update the emailService class by adding Autowired emailRepository object.
+**Got an error. Tried to repair it, but failed! Log:**
+```bash
+ 
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.1)
+
+2022-07-22 12:53:57.320  INFO 27003 --- [           main] indiedev.soumic.start.StartApplication   : Starting StartApplication using Java 18.0.2 on Zephyrus-G14 with PID 27003 (/home/soumic/Codes/JavaSpringTutorial/start/build/classes/java/main started by soumic in /home/soumic/Codes/JavaSpringTutorial/start)
+2022-07-22 12:53:57.322  INFO 27003 --- [           main] indiedev.soumic.start.StartApplication   : No active profile set, falling back to 1 default profile: "default"
+2022-07-22 12:53:57.628  INFO 27003 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-07-22 12:53:57.653  INFO 27003 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 1 JPA repository interfaces.
+2022-07-22 12:53:57.926  INFO 27003 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-07-22 12:53:57.932  INFO 27003 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-07-22 12:53:57.932  INFO 27003 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-07-22 12:53:57.980  INFO 27003 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-07-22 12:53:57.980  INFO 27003 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 626 ms
+2022-07-22 12:53:57.991  INFO 27003 --- [           main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:f00b51fa-7fbf-41fa-828a-a55894cfbfd4;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2022-07-22 12:53:58.040  INFO 27003 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:f00b51fa-7fbf-41fa-828a-a55894cfbfd4'
+2022-07-22 12:53:58.089  WARN 27003 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'emailController': Unsatisfied dependency expressed through method 'setEmailService' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'emailService': Unsatisfied dependency expressed through field 'emailRepository'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'emailRepository' defined in indiedev.soumic.start.email.EmailRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot create inner bean '(inner bean)#427ae189' of type [org.springframework.orm.jpa.SharedEntityManagerCreator] while setting bean property 'entityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)#427ae189': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'entityManagerFactory' available
+2022-07-22 12:53:58.090  INFO 27003 --- [           main] o.s.j.d.e.EmbeddedDatabaseFactory        : Shutting down embedded database: url='jdbc:h2:mem:f00b51fa-7fbf-41fa-828a-a55894cfbfd4;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false'
+2022-07-22 12:53:58.295  INFO 27003 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-07-22 12:53:58.306  INFO 27003 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-07-22 12:53:58.313 ERROR 27003 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field emailRepository in indiedev.soumic.start.email.EmailService required a bean named 'entityManagerFactory' that could not be found.
+
+
+Action:
+
+Consider defining a bean named 'entityManagerFactory' in your configuration.
+
+
+Process finished with exit code 1
+```
+Question: How do I define this bean entityManagerFactory? Help needed.
