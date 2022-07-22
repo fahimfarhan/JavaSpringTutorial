@@ -131,7 +131,7 @@ class Email {
 ## [Class 5](https://github.com/fahimfarhan/JavaSpringTutorial/tree/class-5)
 Previously in class 4, we saw RestController, Service, and Repository.
 ```mermaid
-flowChart class 4
+flowchart TD;
     A[user] --> B[emailController];
     B --> C[EmailService];
     C --> D[EmailService];
@@ -142,7 +142,7 @@ Today, we'll add a persistence layer (database).
 
 
 ```mermaid
-flowChart class 4
+flowchart TD;
     A[user] --> B[emailController];
     B --> C[EmailService];
     C --> D[EmailService];
