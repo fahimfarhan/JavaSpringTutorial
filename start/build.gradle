@@ -22,13 +22,8 @@ dependencies {
 	implementation("com.h2database:h2:2.1.214")
 
 	// jpa
-	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
-	implementation("org.springframework.data:spring-data-jpa:2.7.2")
-
-
-	// I was having an error. a quick google suggested to add this hibernate-core dependency
-	// https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
-	implementation("org.hibernate.orm:hibernate-core:6.1.1.Final")
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.2'
 }
 
 tasks.named('test') {

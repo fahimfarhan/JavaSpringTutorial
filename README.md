@@ -152,7 +152,7 @@ We'll use Spring JPA dependency. All we need to o is give JPA a model, in this c
 For simplicity, we'll use an inMemory database called `H2 database`. In the next class,
 we'll see microservices, and there we'll use postgresql.
 
-1. Add h2-db, jpa, and hibernate-core dependencies.
+1. Add h2-db, jpa, and hibernate-core dependencies. Update: hibernamte-core is not needed. I had added a wrong JPA dependency, that's why I got error. Changing the JPA resolved the problem.
 2. Create an interface called `EmailRepository`, and annotate with `@Repository`.
 3. The emailRepo should extend `JpaRepository`.
 4. ORM = Object relation mapping
@@ -206,3 +206,5 @@ Consider defining a bean named 'entityManagerFactory' in your configuration.
 Process finished with exit code 1
 ```
 Question: How do I define this bean entityManagerFactory? Help needed.
+
+8. Changing the JPA dependency repaired the error in step 7
