@@ -27,8 +27,18 @@ public class EmailService {
     return null;
   }
 
-  public void saveEmail(Email email) {
-    emailRepository.save(email);
+  public boolean saveEmail(Email email) {
+    if(isValid(email)) {
+      emailRepository.save(email);
+      return true;
+    }
+    return false;
   }
 
+  public boolean isValid(Email email) {
+    if(email.getTitle() == null || email.getDescription() == null) {
+      return false;
+    }
+    return true;
+  }
 }

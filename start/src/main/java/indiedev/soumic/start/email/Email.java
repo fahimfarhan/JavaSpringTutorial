@@ -17,11 +17,7 @@ public class Email {
 
   private String someThingSecret;
 
-  public Email() {
-    title = "";
-    description = "";
-    someThingSecret = "";
-  }
+  public Email() {}
 
   public Email(String title, String description, String someThingSecret) {
     this.title = title;

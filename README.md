@@ -244,3 +244,5 @@ flowchart TD;
     E --> F[do sth, eg, crypto mining];
 ```
 How to prevent them? A. use strong password, B. use docker (the attacker won't get access into the main OS even if the docker is breached). 
+15. if post response is successful, return `ResponseEntity.status(HttpStatus.CREATED).build()`, else return badRequest.
+16. 1:35 min, to be continued ...

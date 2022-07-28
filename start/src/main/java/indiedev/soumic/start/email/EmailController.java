@@ -1,6 +1,7 @@
 package indiedev.soumic.start.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,9 +60,13 @@ public class EmailController {
 
 
   @PostMapping("/save-email")
-  public void saveEmail(@RequestBody Email email) {
+  public ResponseEntity<String> saveEmail(@RequestBody Email email) {
     System.out.println("saveEmail input = "+email.toString());
-    emailService.saveEmail(email);
+    var isSaved = emailService.saveEmail(email);
+    if(isSaved) {
+      return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+    return ResponseEntity.badRequest().build();
   }
 
 }
