@@ -237,7 +237,7 @@ Now goto postman, and in our get request, change username, password to those tha
 face malicious attacks (pg botnet attack?). 
 ```mermaid
 flowchart TD;
-    A[bot] -- bruteforce attack --> B[18.xxx.xxx.xxx:5432 (postgre sql default port)];
+    A[bot] -- bruteforce attack --> B[18.xxx.xxx.xxx:5432 postgre sql default port];
     B --> C[Scanning Phase, tries to log into db];
     C --> D[into postgresql, copy them];
     D --> E[Access file system];
