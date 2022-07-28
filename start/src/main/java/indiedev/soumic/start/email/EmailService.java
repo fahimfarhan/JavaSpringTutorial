@@ -10,15 +10,12 @@ import java.util.Objects;
 @Service
 public class EmailService {
 
-  @Autowired
-  EmailRepository emailRepository;
+  private EmailRepository emailRepository;
 
-  /*
   @Autowired
   public void setEmailRepository(EmailRepository emailRepository) {
     this.emailRepository = emailRepository;
   }
-  */
 
 
   public List<Email> getEmails() {

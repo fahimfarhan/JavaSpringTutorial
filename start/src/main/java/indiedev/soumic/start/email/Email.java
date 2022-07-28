@@ -53,4 +53,15 @@ public class Email {
   public void setSomeThingSecret(String someThingSecret) {
     this.someThingSecret = someThingSecret;
   }
+
+
+  @Override
+  public String toString() {
+    return "Email{" +
+        "id=" + id +
+        ", title='" + title + '\'' +
+        ", description='" + description + '\'' +
+        ", someThingSecret='" + someThingSecret + '\'' +
+        '}';
+  }
 }

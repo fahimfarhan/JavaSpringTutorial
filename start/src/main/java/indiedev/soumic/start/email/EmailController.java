@@ -60,6 +60,7 @@ public class EmailController {
 
   @PostMapping("/save-email")
   public void saveEmail(Email email) {
+    System.out.println("saveEmail input = "+email.toString());
     emailService.saveEmail(email);
   }
 
