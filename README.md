@@ -219,3 +219,28 @@ This generated password is for development use only. Your security configuration
 ```
 Use that to get authorized. So in postman, select `basic auth`, then set `username = user`, and `password = 5a31a789-2c8b-4f45-875a-b59821e3648f`.
 The get request should now work.
+10. Open the `application.properties` file, and add
+```properties
+spring.security.user.name=ricardo_milos  # your user name,
+spring.security.user.password=1234       # your password
+```
+(if we are going to save username, and password here, either this file must be in .gitignore, or use something like .env file, and read username, password from there.
+I guess we're in early stage, and so we're keeping it simple.)
+Now goto postman, and in our get request, change username, password to those that you set in your `application.properties`.
+11. The get request will work, but the post request won't work!
+12. **CSRF** = cross site request forgery
+
+<img src="./docs/pics/class-5-img-1-csrf.png" alt="img3.jpg" width="500"/>
+
+13. Spring security adds protection to `patch`, `put`, `post`, `delete` requests as they **modify the records in th db**, but NOT `get`, since we only read from db.
+14. Create a class `SecurityConfig` so that we may change the default behavior of the spring config. Create `SecurityConfig.java`, and disable `csrf` for development convenience. Don't do it in production, since you'll
+face malicious attacks (pg botnet attack?). 
+```mermaid
+flowchart TD;
+    A[bot] -- bruteforce attack --> B[18.xxx.xxx.xxx:5432 (postgre sql default port)];
+    B --> C[Scanning Phase, tries to log into db];
+    C --> D[into postgresql, copy them];
+    D --> E[Access file system];
+    E --> F[do sth, eg, crypto mining];
+```
+How to prevent them? A. use strong password, B. use docker (the attacker won't get access into the main OS even if the docker is breached). 
