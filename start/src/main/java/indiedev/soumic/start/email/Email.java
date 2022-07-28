@@ -1,12 +1,17 @@
 package indiedev.soumic.start.email;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Email {
+  @JsonProperty("title")
   private String title;
+  @JsonProperty("description")
   private String description;
 
+  @JsonProperty("some_thing_secret")
   private String someThingSecret;
+
 
   public Email() {
     title = "";
@@ -43,5 +48,14 @@ public class Email {
 
   public void setSomeThingSecret(String someThingSecret) {
     this.someThingSecret = someThingSecret;
+  }
+
+  @Override
+  public String toString() {
+    return "Email{" +
+        "title='" + title + '\'' +
+        ", description='" + description + '\'' +
+        ", someThingSecret='" + someThingSecret + '\'' +
+        '}';
   }
 }

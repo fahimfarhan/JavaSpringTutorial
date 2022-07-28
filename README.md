@@ -126,4 +126,6 @@ class Email {
       }
 ```
 7. `@PostMapping`
-8. Custom exception handling: use `@ResponseStatus(HttpStatus.NOT_FOUND)` 
+8. Custom exception handling: use `@ResponseStatus(HttpStatus.NOT_FOUND)`
+9. In post request, Add the annotation, `@RequestBody Model model`
+10. In postman, by default `text` is selected. Change it to `json`, else you'll get error.
