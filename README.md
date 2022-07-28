@@ -210,3 +210,12 @@ Process finished with exit code 1
 Question: How do I define this bean entityManagerFactory? Help needed.
 
 8. Changing the JPA dependency repaired the error in step 7
+9. Add Spring boot starter security dependency, change nothing else, and run. The get requests will give `401 unauthorized` error. In the logs, you'll find sth like this
+
+```bash
+Using generated security password: 5a31a789-2c8b-4f45-875a-b59821e3648f
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+```
+Use that to get authorized. So in postman, select `basic auth`, then set `username = user`, and `password = 5a31a789-2c8b-4f45-875a-b59821e3648f`.
+The get request should now work.
