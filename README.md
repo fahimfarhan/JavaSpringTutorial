@@ -109,9 +109,12 @@ class Email {
   }
 }
 ```
+
 5. Create an EmailService, and EmailController. Annotate them with `@Service`, and `@RestController` respectively.
+
 6. Inside the EmailController, create an EmailService using `@AutoWired` annotation. The @Service creates an EmailService bean, that is 
    stored inside IOC (Inversion of Container). The `@AutoWired` annotation automatically links the variable with the reference of EmailService object stored in IOC.
+
 ```java
       class EmailController {
         //  @Autowired // warning dey ken? Vo.O
@@ -126,8 +129,11 @@ class Email {
       }
 ```
 7. `@PostMapping`
+
 8. Custom exception handling: use `@ResponseStatus(HttpStatus.NOT_FOUND)`
+
 9. In post request, Add the annotation, `@RequestBody Model model`
+
 10. In postman, by default `text` is selected. Change it to `json`, else you'll get error.
 
 ## [Class 5](https://github.com/fahimfarhan/JavaSpringTutorial/tree/class-5)
@@ -155,12 +161,19 @@ For simplicity, we'll use an inMemory database called `H2 database`. In the next
 we'll see microservices, and there we'll use postgresql.
 
 1. Add h2-db, jpa, and hibernate-core dependencies. Update: hibernamte-core is not needed. I had added a wrong JPA dependency, that's why I got error. Changing the JPA resolved the problem.
+
 2. Create an interface called `EmailRepository`, and annotate with `@Repository`.
+
 3. The emailRepo should extend `JpaRepository`.
+
 4. ORM = Object relation mapping
+
 5. Annotate the Email class with `@Entity`
+
 6. Create a field `id` for primary key. The primary key must be annotated with `@Id`, and `@GeneratedValue`.
+
 7. Update the emailService class by adding Autowired emailRepository object.
+
 **Got an error. Tried to repair it, but failed! Log:**
 ```bash
  
@@ -210,6 +223,7 @@ Process finished with exit code 1
 Question: How do I define this bean entityManagerFactory? Help needed.
 
 8. Changing the JPA dependency repaired the error in step 7
+
 9. Add Spring boot starter security dependency, change nothing else, and run. The get requests will give `401 unauthorized` error. In the logs, you'll find sth like this
 
 ```bash
@@ -219,7 +233,9 @@ This generated password is for development use only. Your security configuration
 ```
 Use that to get authorized. So in postman, select `basic auth`, then set `username = user`, and `password = 5a31a789-2c8b-4f45-875a-b59821e3648f`.
 The get request should now work.
+
 10. Open the `application.properties` file, and add
+
 ```properties
 spring.security.user.name=ricardo_milos  # your user name,
 spring.security.user.password=1234       # your password
@@ -227,12 +243,15 @@ spring.security.user.password=1234       # your password
 (if we are going to save username, and password here, either this file must be in .gitignore, or use something like .env file, and read username, password from there.
 I guess we're in early stage, and so we're keeping it simple.)
 Now goto postman, and in our get request, change username, password to those that you set in your `application.properties`.
+
 11. The get request will work, but the post request won't work!
+
 12. **CSRF** = cross site request forgery
 
 <img src="./docs/pics/class-5-img-1-csrf.png" alt="img3.jpg" width="500"/>
 
 13. Spring security adds protection to `patch`, `put`, `post`, `delete` requests as they **modify the records in th db**, but NOT `get`, since we only read from db.
+
 14. Create a class `SecurityConfig` so that we may change the default behavior of the spring config. Create `SecurityConfig.java`, and disable `csrf` for development convenience. Don't do it in production, since you'll
 face malicious attacks (pg botnet attack?). 
 ```mermaid
@@ -243,6 +262,43 @@ flowchart TD;
     D --> E[Access file system];
     E --> F[do sth, eg, crypto mining];
 ```
-How to prevent them? A. use strong password, B. use docker (the attacker won't get access into the main OS even if the docker is breached). 
+How to prevent them? A. use strong password, B. use docker (the attacker won't get access into the main OS even if the docker is breached).
+
 15. if post response is successful, return `ResponseEntity.status(HttpStatus.CREATED).build()`, else return badRequest.
-16. 1:35 min, to be continued ...
+
+16. Open up `EmailRepository`, and add this interface method:
+
+```java
+@Repository
+public interface EmailRepository extends JpaRepository<Email, Integer> {
+  /**
+   Jpa knows `findBy` keyword. so we have to give the last word.In our model, we have
+   title. so it will become Title
+   titlle => Titlle
+
+   Format:
+   first character upperCase + the rest of the string is exactly the same. That's it!
+   */
+  Email findByTitle(String title);
+  Email findByTitleIgnoreCase(String title);
+}
+```
+Jpa knows `findBy` keyword. so we have to give the last word.In our model, we have
+```text
+title. so it will become Title
+titlle => Titlle
+
+Format:
+first character upperCase + the rest of the string is exactly the same. That's it!
+```
+
+IntelliIdea autosuggestion dey, so ki ki erokom banano jabe, segulor suggestion peye jabo.
+
+<img src="./docs/pics/class-5-img-2-intellij-idea-auto-suggestion.png" alt="img3.jpg" width="500"/>
+
+Another keyword for model:
+`@NotBlank`
+
+```java
+
+```
