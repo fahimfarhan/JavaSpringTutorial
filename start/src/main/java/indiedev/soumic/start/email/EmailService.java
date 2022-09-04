@@ -24,7 +24,8 @@ public class EmailService {
 
 
   public Email getEmailByTitle(String title) {
-    return null;
+    // class 4 e for loop chalay ber korsilam. eibar seta korbo na. spring er build in feature use korbo
+    return emailRepository.findByTitle(title);
   }
 
   public boolean saveEmail(Email email) {

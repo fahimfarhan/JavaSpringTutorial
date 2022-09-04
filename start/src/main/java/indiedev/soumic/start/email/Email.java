@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+//import javax.validation.constraints.NotBlank;  // khuje pay na ken?
 
 @Entity
 public class Email {
@@ -12,6 +13,7 @@ public class Email {
   @Id
   @GeneratedValue
   private Integer id;
+//  @NotBlank
   private String title;
   private String description;
 
