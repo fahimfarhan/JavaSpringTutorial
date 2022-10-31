@@ -467,3 +467,71 @@ or not. We'll also have an email service, and notification service.
 ### Create new module named `Client`
 
 This is our first microservice.
+in the `pom.xml(Client)`, add dependency:
+
+```xml
+
+<dependencies>
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>2.7.1</version>
+    </dependency>
+</dependencies>
+```
+
+After that, the instructor created a new package. (The instructor had only `client/src/main/java`, whereas I have 
+`client/src/main/java/com/mycompany/app`, guess I'm gonna delete that folder, and follow the instructor precisely).
+
+Delete com.mycompany.app/Main.java (In case anything goes wrong, recreate it manually. it's simply prints a hello world in psvm).
+Now create package `com.soumic.client`. Create `ClientApplication` class. Annotate it with `@SpringBootApplication`, and 
+add a `psvm`, and add:
+```java
+@SpringBootApplication
+public class ClientApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(ClientApplication.class, args);
+  }
+}
+```
+Next we'll be developing our business logics.
+Important note: we'll be running this on different servers, and different ports.
+
+Since we'll be using localHost, we'll run services on different ports.
+
+Create an `application.yml` file under `resources` directory. Yml is kinda like python. so indentation is very important.
+in your `resources/application.yml` file, add:
+
+```yml
+server:
+  port: 8080
+```
+
+* Onto the business logic. Let's create a model named `Client`, and annotate with @Data, @Builder to autogenerate constructor,
+getter, setter etc using lombok.
+
+* Create a ClientController class.
+```java
+@Slf4j  // for logging
+@RestController  // rest
+@RequestMapping("api/v1/clients")  // starts with this url pattern
+public class ClientController { }
+```
+
+We may also use `record` instead of `class` as it has some benifits.
+```java
+@Slf4j  // for logging
+@RestController  // rest
+@RequestMapping("api/v1/clients")  // starts with this url pattern
+public record ClientController(ClientService clientService) {
+  public void registerClient() {}
+}
+```
+
+Also create a class named `ClientService`.
+After that create a record `ClientServiceRequest`.
+
+Now we want to save data, hence comes db. We'll be seeing some docker stuffs soon!
+
+59:30 sec to be continued...
