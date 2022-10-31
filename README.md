@@ -302,3 +302,168 @@ Another keyword for model:
 ```java
 
 ```
+
+## [Class 6](https://github.com/fahimfarhan/JavaSpringTutorial/tree/class-6)
+
+Today we'll work with micro-services. In the previous class, we built only one service (EmailService). If we want to 
+make, say, an ecommerce website, there will be a myriad kinds of services. Only a small service maybe an emailService.
+The instructor worked on an emailService in his company that sends customers an auto-generated email every month.
+
+When we build a monolithic application, there will be a lot of services. But a microservice has a lot of services. So
+what's the difference :monocle_face: ?
+
+Let's juxtapose the 2 to see their differences.
+
+```text
+   ---------------------------
+   |    inventory            |  <--- Everything in one server. So only one ip for everything.
+   |                         |       this is 127.0.0.1:8080, everything is seperated with /inventory, /store, /shipping...
+   |    store                |       this  is the problem. Suppose it is black friday. There will be a lot of sale. 
+   |                         |
+   |    Shipping             |
+   ---------------------------
+     Monolithic architecture
+```
+Teletalk ssc, hsc exam service goes down. say no more...
+
+On black friday, there will be a lot of hits on the `/shipping`. Since we want to scale up, the entire thing gets scaled.
+So we have unused `/inventory`, and `/store` services running.
+
+```text
+   ---------------------------
+   |        inventory        |  scale up. After rush hour, scale down...
+   ---------------------------
+   
+   ------------
+   |   store  |   scale down. During rush hour, scale up...
+   ------------
+   
+   ---------------------------
+   |    Shipping             |  scale up. After rush hour, scale down...
+   ---------------------------
+
+    Microservice architecture
+```
+
+What is the main advantage of using microservice architecture?
+
+If one is down, the rest of the services won't be affected. If `inventory` is down, the `store` and `shipping` are 
+working. In monolithic, everything is down if the server is down.
+
+<img src="./docs/pics/class-6-pic-1-microservice-architecture.png" alt="class-6-pic-1-microservice-architecture.png" width="500"/>
+
+The instructor is using maven cli to generate a new project. I'll be using gradle.
+
+* Random question by a course-mate: Which language is better for microservice architecture? *
+
+Answer: Language doesn't matter. Every language has some similarities. Such as OOP is similar in c++, java, c#. If you
+know one, you can do it in any language.
+
+Now for microservice, different frameworks exists in different language. Python-djando, java-spring, ...
+
+The important question is, `What are we building?`
+
+If we are building very complex / enterprise level software, most of the time we select java. Netflix, Amazon have a lot
+of their services built with java.
+
+But if you want to build sth in short notice, then perhaps nodejs is better.
+
+Everything has its pros and cons. So language doesn't matter, but the project matters. What we are building, what is the
+service, what the design should be , matters.
+
+So, I created a project in gradle (because android..., and here I diverge from the video), and now I need to add some
+dependencies.
+
+In mvn, one needs to add a plugin management. Not sure if we need that in gradle.
+
+## Dependencies
+* Add spring boot
+```kotlin
+plugins {
+  // Apply the application plugin to add support for building a CLI application in Java.
+  application
+  java
+  id("org.springframework.boot") version "2.7.5"
+  id("io.spring.dependency-management") version "1.0.11.RELEASE"
+
+}
+```
+* there will be 2 dependency blocks: parent, and child. Since we're building microservices, there will be a lot of 
+  common dependencies. We'll add those in the parent block. And the child specific dependencies will go inside the child's
+  block.
+* Looks like I'm gonna need to google a few things for gradle. Alternatively, I'll just open android studio project, and
+  copy the top level gradle. Here's a [github gist link(kotlin)](https://github.com/gradle/kotlin-dsl-samples/blob/master/samples/hello-android/build.gradle.kts)
+  or [github gist link(gradle)](https://gist.github.com/SeanZoR/af0932faea7d74e3a98e) to help you get started.
+* Since I'll be using spring-boot everywhere, it should go inside the top level gradle.
+
+(Change of plan, stick to the video, and use maven. Later when I'll understand everything properly, I'll use gradle).
+
+Create maven project `my-app`, using the command:
+```bash
+mvn -B archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4
+```
+Then we'll be configuring our `pom.xml`. Initially,
+```xml
+
+<properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+</properties>
+
+<dependencies>
+<!-- video te junit silo na, amartay ase...-->
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.11</version>
+    <scope>test</scope>
+</dependency>
+</dependencies>
+```
+
+Add spring-boot dependencies in the `properties`.
+```xml
+
+<properties>
+<!-- initial dependencies... -->
+    <spring.boot.maven.plugin.version>2.7.1</spring.boot.maven.plugin.version>
+    <spring.boot.dependencies.version>2.7.1</spring.boot.dependencies.version>
+</properties>
+```
+
+We'll be building micro-services. We'll have lot's of services under `my-app`. My app is like `Daraz`(an ecommerce site),
+and under it, we'll have `email service`, `inventory service`, `storage service` etc under the `my-app`. Create 
+`<dependencyManagement><dependencies>` and add common dependencies. The children services will directly inherit common dependencies
+from `<dependencyManagement><dependencies>`.
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${spring.boot.dependencies.version}</version>
+            <scope>import</scope>
+            <type>pom</type>
+        </dependency>
+
+    </dependencies>
+</dependencyManagement>
+```
+
+And in the normal dependency block, add `lombok` to auto-generate the getter and setter. Now we're good to go!
+
+[https://spring.io/microservices](https://spring.io/microservices) is a nice guide to get started. 
+
+An important dependency for spring microservice is `spring-cloud` (just keep in mind, we'll use it later).
+
+## So what are we gonna make?
+
+a demo bank. my-app will be a demo-bank, we'll have some customers, a service will check whether the customer is valid
+or not. We'll also have an email service, and notification service.
+
+### Create new module named `Client`
+
+This is our first microservice.
