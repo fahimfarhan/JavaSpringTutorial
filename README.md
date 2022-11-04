@@ -612,3 +612,17 @@ $ docker compose ps  # NOT docker ps
 
 I can't proceed forward without repairing this error...
 1:29:40 to be continued...
+
+Found the error. It was a silly typo at the last line:
+```yml
+services:
+# ... ... ...
+volumes:
+  postgres:
+  # pdadmin:  I wrote `d` instead of a `g`. Years of academic training wasted!
+  pgadmin:
+```
+
+Set pgAdmin master password: pg_admin_master_password
+
+(idk, there was a popup, I just typed in a password quickly, and saved it in the readme.md file, lol. never ever do it in production).
