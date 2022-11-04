@@ -432,7 +432,7 @@ Add spring-boot dependencies in the `properties`.
 </properties>
 ```
 
-We'll be building micro-services. We'll have lot's of services under `my-app`. My app is like `Daraz`(an ecommerce site),
+We'll be building microservices. We'll have lots of services under `my-app`. My app is like `Daraz`(an ecommerce site),
 and under it, we'll have `email service`, `inventory service`, `storage service` etc under the `my-app`. Create 
 `<dependencyManagement><dependencies>` and add common dependencies. The children services will directly inherit common dependencies
 from `<dependencyManagement><dependencies>`.
@@ -532,6 +532,83 @@ public record ClientController(ClientService clientService) {
 Also create a class named `ClientService`.
 After that create a record `ClientServiceRequest`.
 
-Now we want to save data, hence comes db. We'll be seeing some docker stuffs soon!
+Now we want to save data, hence comes db. We'll be seeing some docker (docker compose) stuffs soon!
 
 59:30 sec to be continued...
+
+## Docker Basics
+* Image: is nothing but source code.
+* Container: When we run an image(ie, src code), we call it a container. An instance of the image is a container.
+Go to docker website  https://hub.docker.com
+* Need to install docker-desktop
+* Suppose I installed postgres db via docker. then in my laptop, a container of postgres will be created, and my code
+will communicate with that container
+* Docker is kinda vm
+  <img src="./docs/pics/class-6-pic-2-virtual-machine.png" alt="img3.jpg" width="500"/>
+  <img src="./docs/pics/class-6-pic-3-how-docker-works.png" alt="img3.jpg" width="500"/>
+* docker desktop is better for beginners. you can even run kubernetes inside the docker desktop.
+```bash
+$ sudo docker pull hello-world
+Using default tag: latest  # use latest, or specific tag
+latest: Pulling from library/hello-world
+Digest: sha256:e18f0a777xxxx-xxxx-xxxx671ab3ec3eed05414477c951ab1a6f352a06974245fe7  # unique identifier
+Status: Image is up to date for hello-world:latest
+docker.io/library/hello-world:latest
+
+$ docker run hello-world
+```
+
+## Useful commands:
+```bash
+$ docker ps  # shows running containers...
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial$ sudo docker ps
+[sudo] password for soumic:       
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial$
+```
+
+`$ docker ps -a` will show both running, and non-running containers.
+
+Since docker is using my computer resources, I need to always monitor which containers are running, or I need.
+Each container has an unique id. Use it to stop a container.
+
+```bash
+$ docker container rm <CONTAINER_ID>
+# for example,
+$ docker container rm 1234efrgrb45
+```
+
+The process that controls these commands is called `docker-daemon`.
+
+## Docker compose
+is a yml file. We can specify which docker containers I want, how many images I want, etc. Say I need Redis, Apache 
+kafka, and postgres, I can specify them in the compose file. We also need to configure some networking.
+```
+
+dockerCompose |--> docker file --> postgres container  --->|--------------------| 
+              |                                            | a single service   |
+              |--> docker file --> pgAdmin container ------->|--------------------|
+```
+
+Under `my-app` create a `docker-compose.yml` file.
+
+
+<img src="./docs/pics/class-6-pic-4-sample-docker-compose-file.png" alt="img4.jpg" width="500"/>
+ 
+We can find these commands online :/
+
+Now if we want to use this docker-compose.yml, then:
+```bash
+$ cd /path/to/my-app
+$ls
+Client  docker-compose.yml  pom.xml  src
+$ docker compose up -d # -d for detached mode, ie, we won't see anything on the terminal... 
+service "pgadmin" refers to undefined volume pgadmin: invalid compose project # I got this stupid error -_-
+```
+To see containers, we need to use 
+```bash
+$ docker compose ps  # NOT docker ps
+```
+
+I can't proceed forward without repairing this error...
+1:29:40 to be continued...
