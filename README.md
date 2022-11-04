@@ -626,3 +626,52 @@ volumes:
 Set pgAdmin master password: pg_admin_master_password
 
 (idk, there was a popup, I just typed in a password quickly, and saved it in the readme.md file, lol. never ever do it in production).
+
+## Create a new server
+* General -> Name: postgres
+* Connection 
+* -> Host name/address: postgres
+* -> Username: soumic  (looks like this must be the same as provided in the yml)
+* -> password: my_awesome_password  (looks like this must be the same as provided in the yml)
+* -> save password: true
+
+* Now save, and create a new server.
+  
+(Looks like I screwed up somewhere, so just to be sure on what is going on, I am deleting the docker compose containers.
+Basically invoke, `sudo docker rm <CONTAINER_NAME> # here CONTAINER_NAME = postgres, and pgadmin`
+```bash
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ docker compose ps -a
+NAME                COMMAND             SERVICE             STATUS              PORTS
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker compose ps -a
+NAME                COMMAND                  SERVICE             STATUS              PORTS
+pgadmin             "/entrypoint.sh"         pgadmin             exited (0)          
+postgres            "docker-entrypoint.s…"   postgres            exited (0)          
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker rm pgadmin
+pgadmin
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker compose ps -a
+NAME                COMMAND                  SERVICE             STATUS              PORTS
+postgres            "docker-entrypoint.s…"   postgres            exited (0)          
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker rm postgres
+postgres
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker compose ps -a
+NAME                COMMAND             SERVICE             STATUS              PORTS
+```
+
+Okay, I recreated, but the db persisted. looks like we need to remove [docker volume](https://stackoverflow.com/a/63949153/9053942).
+My first attempt failed, cz I was trying to delete volume without removing the container. so first remove the containers, then remove the volumes[reference stackOverFlow answer](https://stackoverflow.com/a/73876900/9053942)!
+```bash
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker compose ps -a
+NAME                COMMAND                  SERVICE             STATUS              PORTS
+pgadmin             "/entrypoint.sh"         pgadmin             exited (0)          
+postgres            "docker-entrypoint.s…"   postgres            exited (0)          
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker rm pgadmin
+pgadmin
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker rm postgres
+postgres
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker volume rm my-app_postgres
+my-app_postgres
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ sudo docker volume rm my-app_pgadmin
+my-app_pgadmin
+(base) soumic@Zephyrus-G14:~/Codes/JavaSpringTutorial/MicroServiceDemoMvn/my-app$ 
+```
+).
