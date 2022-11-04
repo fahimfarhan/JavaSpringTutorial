@@ -799,3 +799,23 @@ I've done something wrong! pause video at `1h 46m 45s`.
 
 Oh! the code was ok. In postman, I `text` format was selected by default, not `json`. Hence, I got that error. After changing to `json`, the api worked!
 
+## Onto the next, create a new Module named `Spam`
+This microservice will detect whether a client is actually valid or not.
+
+Copy all dependencies from Client's pom.xml to Spam's pom.xml.
+Create `SpamApplication.java`.
+In the resources, create an `application.yml`, and add:
+```yml
+
+server:
+  port: 8081  # make sure to change the port
+spring:
+  application:
+    name: spam
+```
+
+Now open SpamApplication, and on the file, intellijIdea shows a run button. Hit the run button!
+After that, basically copy, and paste everything in the spam module, ie, SpamService, SpamRepository, SpamController, etc.
+
+## Homework
+Create a notification service, and make sure you create a table.
