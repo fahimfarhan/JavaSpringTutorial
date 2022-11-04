@@ -3,7 +3,7 @@ package com.soumic.client;
 import org.springframework.stereotype.Service;
 
 @Service
-public record ClientService() {
+public record ClientService(ClientRepository clientRepository) {
   public void registerClient(ClientRegistrationRequest request) {
     Client client =
         Client.builder()
@@ -12,6 +12,7 @@ public record ClientService() {
         .email(request.email())
         .build();
 
+    clientRepository.save(client);
     // now we want to save it in a db. so add some db code...
   }
 }
