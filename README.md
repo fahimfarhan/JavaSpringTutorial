@@ -819,3 +819,7 @@ After that, basically copy, and paste everything in the spam module, ie, SpamSer
 
 ## Homework
 Create a notification service, and make sure you create a table.
+
+Created one, simply inserted some rows, but there's sth wrong with postman's working.
+If I use `body -> x-www-form-urlencoded`, the model is inserting properly. but if I create a json file in the `Body -> raw`,
+all of my fields are null :confused: . No idea what went wrong in the postman thing... Apart from that, everything looks ok.
