@@ -11,6 +11,7 @@
   <modules>
     <module>Client</module>
     <module>Spam</module>
+    <module>Notifications</module>
   </modules>
 
   <name>my-app</name>
